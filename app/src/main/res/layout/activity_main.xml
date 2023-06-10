@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/phoneNumberTxt"
+        android:layout_marginTop="200px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Moko Chat"
+        android:textSize="80px"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+    <EditText
+        android:id="@+id/phoneNumberValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220px"
+        android:hint="Phone Number"
+        android:layout_below="@+id/phoneNumberTxt"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:inputType="phone"
+        android:text="+94765730061"
+        />
+    <EditText
+        android:id="@+id/otpValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:hint="OTP Code"
+        android:layout_below="@+id/phoneNumberValue"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:inputType="phone"
+        />
+    <Button
+        android:id="@+id/phoneNumberSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Number"
+        android:layout_below="@+id/otpValue"
+        android:layout_marginTop="50px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        />
+
+</RelativeLayout>

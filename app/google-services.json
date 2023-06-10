@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "805320665363",
+    "project_id": "moko-chat-2023",
+    "storage_bucket": "moko-chat-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805320665363:android:d8daef34fa53e81ac512e6",
+        "android_client_info": {
+          "package_name": "com.ishanj.mokochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805320665363-ov9ni6akdhelmlsp7tm1e08uj66ftia8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ishanj.mokochat",
+            "certificate_hash": "789cb3a0e683f7f693950255b99da0b609651822"
+          }
+        },
+        {
+          "client_id": "805320665363-lo4aiuuu48nce20fkijevdmtragg4q5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZvc9jPb5Ihg4DWg_rZL2nNHBRX6zbQGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805320665363-lo4aiuuu48nce20fkijevdmtragg4q5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
