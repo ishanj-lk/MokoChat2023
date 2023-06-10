@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 32java --version
 
     defaultConfig {
         applicationId "com.ishanj.mokochat"

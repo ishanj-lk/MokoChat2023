@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditUserInfo">
+
+    <TextView
+        android:id="@+id/editUserInfoTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update User Information"
+        android:textAlignment="center"
+        android:layout_marginTop="400px"
+        android:textSize="80px"
+        />
+
+    <EditText
+        android:id="@+id/editUserInfoName"
+        android:layout_below="@+id/editUserInfoTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:hint="Name"
+        />
+
+    <EditText
+        android:id="@+id/editUserInfoTown"
+        android:layout_below="@+id/editUserInfoName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:hint="Home Town"
+        />
+    <Button
+        android:id="@+id/editUserInfoUpdateBtn"
+        android:layout_below="@+id/editUserInfoTown"
+        android:layout_marginTop="100px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120px"
+        android:layout_marginRight="120px"
+        android:text="Update My Account"
+        />
+
+</RelativeLayout>
