@@ -162,8 +162,7 @@ public class MainActivity<callbacks> extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Login successful........", Toast.LENGTH_SHORT).show();
                     String uid = mAuth.getCurrentUser().getUid();
                     Paper.book().write("uID", uid);
-                    Intent mainUIIntent = new Intent(MainActivity.this, MainInterface.class);
-                    startActivity(mainUIIntent);
+                    goToMainActivity();
                 }
                 else {
                     loginFailed();
@@ -172,5 +171,14 @@ public class MainActivity<callbacks> extends AppCompatActivity {
         });
     }
 
+    public void goToMainActivity() {
+        Intent mainUIIntent = new Intent(MainActivity.this, MainInterface.class);
+        startActivity(mainUIIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 
 }

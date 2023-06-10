@@ -7,10 +7,20 @@
     tools:context=".MainInterface">
 
     <Button
+        android:id="@+id/updateUserInfoBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update User Info"
+        android:layout_marginTop="50px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        />
+    <Button
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout"
+        android:layout_below="@+id/updateUserInfoBtn"
         android:layout_marginTop="50px"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
