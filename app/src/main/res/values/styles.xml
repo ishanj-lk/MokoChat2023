@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ListItemTextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:paddingLeft">10px</item>
+        <item name="android:paddingTop">30px</item>
+    </style>
+    <style name="ListItemEditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+</resources>
