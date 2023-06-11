@@ -25,4 +25,25 @@
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
         />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/logout">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:orientation="vertical"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:id="@+id/itemTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="120sp"
+        android:layout_marginTop="800px"
+        android:layout_below="@+id/logout"/>
 </RelativeLayout>
