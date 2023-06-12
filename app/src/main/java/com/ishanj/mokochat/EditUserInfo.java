@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.paperdb.Paper;
@@ -104,6 +105,7 @@ public class EditUserInfo extends AppCompatActivity {
         Map<String, Object> registerUserData = new HashMap<>();
         registerUserData.put("name", editUserInfoNameGetValue);
         registerUserData.put("homeTown", editUserInfoTownGeValue);
+        registerUserData.put("name4search", editUserInfoNameGetValue.toLowerCase().replace(" ", ""));
         registerUserRef.setValue(registerUserData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

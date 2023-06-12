@@ -35,7 +35,6 @@ import io.paperdb.Paper;
 public class MainInterface extends AppCompatActivity {
 
     private String uID;
-    private Button btnLogout, btnUpdateUserInfoBtn;
     private FirebaseDatabase FBdatabase;
     private BottomNavigationView bottomNavigationView;
 
@@ -62,10 +61,6 @@ public class MainInterface extends AppCompatActivity {
         elementInitialize();
         //This triggers main actions
         actionTriggers();
-        //Fetch Sample data 1st example
-        //fetchList();
-        //Fetch Sample data 2nd example -- successful
-        //fetchList2();
     }
 
     private void fragmentManager() {
@@ -94,95 +89,7 @@ public class MainInterface extends AppCompatActivity {
                 return false;
             }
         });
-    }
 
-    private void fetchList2() {
-        DatabaseReference listRef = FBdatabase.getReference("texts");
-        // Retrieve the data from Firebase Realtime Database
-        listRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                LinearLayout linearLayout = findViewById(R.id.linearLayout); // Replace with your actual layout container
-                linearLayout.removeAllViews(); // Clear the existing views
-
-                // Get the layout inflater
-                LayoutInflater inflater = LayoutInflater.from(MainInterface.this); // Replace MainActivity with your activity or use 'getContext()' in a fragment
-
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-
-                    String textValue = childSnapshot.getValue(String.class);
-                    String editTextValue = ""; // Set the initial value for EditText, modify as needed
-                    int imageResource = R.drawable.ic_launcher_background;
-
-                    // Create a new instance of the combined layout for each item
-                    View itemLayout = inflater.inflate(R.layout.list_item_layout, linearLayout, false);
-                    TextView textView = itemLayout.findViewById(R.id.itemTextView);
-                    EditText editText = itemLayout.findViewById(R.id.itemEditText);
-                    ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
-
-                    textView.setTextAppearance(MainInterface.this, R.style.ListItemTextView);
-                    editText.setTextAppearance(MainInterface.this, R.style.ListItemEditText);
-
-                    textView.setText(textValue);
-                    editText.setText(editTextValue);
-                    imageView.setImageResource(imageResource);
-
-                    // Add the item layout to the layout container
-                    linearLayout.addView(itemLayout);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Firebase", "Error fetching data", databaseError.toException());
-            }
-        });
-    }
-
-    private void fetchList() {
-        DatabaseReference listRef = FBdatabase.getReference("texts");
-        // Retrieve the data from Firebase Realtime Database
-        listRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                LinearLayout linearLayout = findViewById(R.id.linearLayout); // Replace with your actual layout container
-                linearLayout.removeAllViews(); // Clear the existing views
-
-                TextView originalTextView = findViewById(R.id.itemTextView);
-
-                int idCounter=1;
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    // Process each child snapshot and retrieve the data
-                    String value = childSnapshot.getValue(String.class);
-
-                    TextView textViewCopy = new TextView(MainInterface.this); // Replace MainActivity with your activity or use 'getContext()' in a fragment
-                    textViewCopy.setLayoutParams(originalTextView.getLayoutParams()); // Set the layout params of the original TextView
-                    textViewCopy.setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextView.getTextSize());
-                    textViewCopy.setText(value);
-
-                    textViewCopy.setId(idCounter); // Assign a unique ID to the TextView
-                    textViewCopy.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int textViewId = v.getId();
-                            // Handle the click event and show the ID
-                            Toast.makeText(MainInterface.this, "Clicked TextView ID: " + textViewId, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    // Add the copied TextView to the layout container
-                    linearLayout.addView(textViewCopy);
-
-                    idCounter++; // Increment the ID counter
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Firebase", "Error fetching data", databaseError.toException());
-            }
-        });
     }
 
     private void newUserCheck() {
@@ -205,32 +112,11 @@ public class MainInterface extends AppCompatActivity {
     }
 
     private void actionTriggers() {
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userLogOut();
 
-            }
-        });
-        btnUpdateUserInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newUserIntent = new Intent(MainInterface.this, EditUserInfo.class);
-                newUserIntent.putExtra("userState", "existing");
-                startActivity(newUserIntent);
-            }
-        });
-    }
-
-    private void userLogOut() {
-        Intent logoutIntent = new Intent(MainInterface.this, MainActivity.class);
-        startActivity(logoutIntent);
-        Paper.book().delete("uID");
     }
 
     private void elementInitialize() {
-        btnLogout = (Button) findViewById(R.id.logout);
-        btnUpdateUserInfoBtn = (Button) findViewById(R.id.updateUserInfoBtn);
+
 
     }
 

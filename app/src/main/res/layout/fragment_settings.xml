@@ -5,10 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".settingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:id="@+id/updateUserInfoBtn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="settings" />
+        android:layout_height="wrap_content"
+        android:text="Update User Info"
+        android:layout_marginTop="50px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        />
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_below="@+id/updateUserInfoBtn"
+        android:layout_marginTop="250px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        />
 
 </FrameLayout>

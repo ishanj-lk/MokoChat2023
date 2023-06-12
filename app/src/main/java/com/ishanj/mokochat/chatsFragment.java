@@ -75,14 +75,13 @@ public class chatsFragment extends Fragment {
         }
 
 
-
         //Get uID with paper library
         Paper.init(getContext());
         uID = Paper.book().read("uID");
-        Toast.makeText(getContext(), uID, Toast.LENGTH_SHORT).show();
         //Firebase Database
         FirebaseApp.initializeApp(getContext());
         FBdatabase = FirebaseDatabase.getInstance();
+        fetchList();
     }
 
     private void fetchList() {
@@ -99,7 +98,6 @@ public class chatsFragment extends Fragment {
                 // Get the layout inflater
                 LayoutInflater inflater = LayoutInflater.from(getContext()); // Replace MainActivity with your activity or use 'getContext()' in a fragment
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
                     String textValue = childSnapshot.getValue(String.class);
                     String editTextValue = ""; // Set the initial value for EditText, modify as needed
                     int imageResource = R.drawable.ic_launcher_background;
@@ -135,7 +133,12 @@ public class chatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
         linearLayout = rootView.findViewById(R.id.linearLayout);
-        fetchList();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchList();
     }
 }

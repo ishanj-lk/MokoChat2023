@@ -6,40 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainInterface">
 
-    <Button
-        android:id="@+id/updateUserInfoBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update User Info"
-        android:layout_marginTop="50px"
-        android:layout_marginLeft="80px"
-        android:layout_marginRight="80px"
-        android:visibility="gone"
-        />
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_below="@+id/updateUserInfoBtn"
-        android:layout_marginTop="50px"
-        android:layout_marginLeft="80px"
-        android:layout_marginRight="80px"
-        android:visibility="gone"
-        />
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigationBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/nav_menu"/>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/navigationBar"/>
+        android:layout_above="@+id/navigationBar"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/nav_menu"/>
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.ishanj.mokochat;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import io.paperdb.Paper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class settingsFragment extends Fragment {
+
+    private Button btnLogout, btnUpdateUserInfoBtn;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,10 +61,39 @@ public class settingsFragment extends Fragment {
         }
     }
 
+    private void userLogOut() {
+        Intent logoutIntent = new Intent(getContext(), MainActivity.class);
+        startActivity(logoutIntent);
+        Paper.book().delete("uID");
+    }
+
+    private void actionTriggers() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userLogOut();
+
+            }
+        });
+        btnUpdateUserInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newUserIntent = new Intent(getContext(), EditUserInfo.class);
+                newUserIntent.putExtra("userState", "existing");
+                startActivity(newUserIntent);
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+        //This initialize UI elements
+        btnLogout = (Button) rootView.findViewById(R.id.logout);
+        btnUpdateUserInfoBtn = (Button) rootView.findViewById(R.id.updateUserInfoBtn);
+        //This triggers main actions
+        actionTriggers();
+        return rootView;
     }
 }
