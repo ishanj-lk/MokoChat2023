@@ -2,7 +2,9 @@ package com.ishanj.mokochat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Transformations;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import io.paperdb.Paper;
 
@@ -39,6 +44,9 @@ public class searchFragment extends Fragment {
     private LinearLayout linearLayout;
     private EditText searchUsersET;
     private String searchUsersETTxt;
+    private TextView searchWhichListTxt, searchUnhappyText, searchNoRequestsTxt;
+    private ImageView searchUnhappyFace, searchMokoLogo;
+    private ScrollView search_linear_layout_scroll;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,8 +86,7 @@ public class searchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
+        
         //Get uID with paper library
         Paper.init(getContext());
         uID = Paper.book().read("uID");
@@ -99,7 +106,10 @@ public class searchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchUsersETTxt = searchUsersET.getText().toString().toLowerCase().replace(" ", "");
-                fetchList();
+                fetchSearchList();
+                searchWhichListTxt.setText("Search Results");
+                searchMokoLogo.setVisibility(View.GONE);
+                searchNoRequestsTxt.setVisibility(View.GONE);
             }
 
             @Override
@@ -109,7 +119,7 @@ public class searchFragment extends Fragment {
         });
     }
 
-    private void fetchList() {
+    private void fetchSearchList() {
         DatabaseReference listRef =  FBdatabase.getReference("users");
         // Retrieve the data from Firebase Realtime Database
         listRef.orderByChild("name4search").startAt(searchUsersETTxt).endAt(searchUsersETTxt+"\uf8ff").limitToFirst(20).addValueEventListener(new ValueEventListener() {
@@ -121,25 +131,30 @@ public class searchFragment extends Fragment {
                 linearLayout.removeAllViews();
 
                 if(dataSnapshot.exists()){
+                    search_linear_layout_scroll.setVisibility(View.VISIBLE);
+                    searchUnhappyText.setVisibility(View.GONE);
+                    searchUnhappyFace.setVisibility(View.GONE);
                     LayoutInflater inflater = LayoutInflater.from(getContext());
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                        String childName = childSnapshot.child("name").getValue().toString();
-                        String editTextValue = ""; // Set the initial value for EditText, modify as needed
+                        String childNameGet = childSnapshot.child("name").getValue().toString();
+                        String childCityGet = childSnapshot.child("homeTown").getValue().toString();
                         int imageResource = R.drawable.ic_launcher_background;
 
                         // Create a new instance of the combined layout for each item
-                        View itemLayout = inflater.inflate(R.layout.list_item_layout, linearLayout, false);
+                        View itemLayout = inflater.inflate(R.layout.search_list_item_layout, linearLayout, false);
                         String key = childSnapshot.getKey();
-                        TextView textView = itemLayout.findViewById(R.id.itemTextView);
-                        EditText editText = itemLayout.findViewById(R.id.itemEditText);
+                        TextView childNameSet = itemLayout.findViewById(R.id.list_name);
+                        TextView cityNameSet = itemLayout.findViewById(R.id.list_city);
                         ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
 
-                        textView.setTextAppearance(getContext(), R.style.ListItemTextView);
-                        editText.setTextAppearance(getContext(), R.style.ListItemEditText);
+                        childNameSet.setTextAppearance(getContext(), R.style.SearchListName);
+                        cityNameSet.setTextAppearance(getContext(), R.style.SearchListCity);
 
-                        textView.setText(childName);
-                        editText.setText(editTextValue);
-                        imageView.setImageResource(imageResource);
+                        childNameSet.setText(childNameGet);
+                        cityNameSet.setText("From, "+childCityGet);
+                        Picasso picasso = Picasso.get();
+                        picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
+                                transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
 
                         itemLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -152,10 +167,17 @@ public class searchFragment extends Fragment {
                 }
                 else{
                     linearLayout.removeAllViews();
+                    search_linear_layout_scroll.setVisibility(View.GONE);
+                    searchUnhappyText.setVisibility(View.VISIBLE);
+                    searchUnhappyFace.setVisibility(View.VISIBLE);
                 }
 
                 if(TextUtils.isEmpty(searchUsersETTxt)){
                     linearLayout.removeAllViews();
+                    searchWhichListTxt.setText("Friend Requests");
+                    searchUnhappyText.setVisibility(View.GONE);
+                    searchUnhappyFace.setVisibility(View.GONE);
+                    fetchRequestList();
                 }
             }
 
@@ -172,8 +194,85 @@ public class searchFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         linearLayout = rootView.findViewById(R.id.searchUsersLayout);
         searchUsersET = (EditText) rootView.findViewById(R.id.searchUsersET);
+        searchWhichListTxt = (TextView) rootView.findViewById(R.id.searchWhichListTxt);
+        searchUnhappyFace = (ImageView) rootView.findViewById(R.id.searchUnhappyFace);
+        searchUnhappyText = (TextView) rootView.findViewById(R.id.searchUnhappyText);
+        search_linear_layout_scroll = (ScrollView) rootView.findViewById(R.id.search_linear_layout_scroll);
+        searchNoRequestsTxt = (TextView) rootView.findViewById(R.id.searchNoRequestsTxt);
+        searchMokoLogo = (ImageView) rootView.findViewById(R.id.searchMokoLogo);
         //This triggers main actions
         actionTriggers();
+        fetchRequestList();
         return rootView;
+    }
+
+    private void fetchRequestList() {
+
+        DatabaseReference requestRef =  FBdatabase.getReference("requests");
+        requestRef.child(uID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!isResumed() || !isVisible()) {
+                    return;
+                }
+               if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
+                   linearLayout.removeAllViews();
+                   search_linear_layout_scroll.setVisibility(View.VISIBLE);
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                   for (DataSnapshot child : dataSnapshot.getChildren()) {
+                       String childName = child.getKey();
+                       DatabaseReference listRef =  FBdatabase.getReference("users");
+                       listRef.child(childName).addListenerForSingleValueEvent(new ValueEventListener() {
+                           @Override
+                           public void onDataChange(@NonNull DataSnapshot childSnapshot) {
+                               String childNameGet = childSnapshot.child("name").getValue().toString();
+                               String childCityGet = childSnapshot.child("homeTown").getValue().toString();
+                               int imageResource = R.drawable.ic_launcher_background;
+
+                               // Create a new instance of the combined layout for each item
+                               View itemLayout = inflater.inflate(R.layout.search_list_item_layout, linearLayout, false);
+                               String key = childSnapshot.getKey();
+                               TextView childNameSet = itemLayout.findViewById(R.id.list_name);
+                               TextView cityNameSet = itemLayout.findViewById(R.id.list_city);
+                               ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
+
+                               childNameSet.setTextAppearance(getContext(), R.style.SearchListName);
+                               cityNameSet.setTextAppearance(getContext(), R.style.SearchListCity);
+
+                               childNameSet.setText(childNameGet);
+                               cityNameSet.setText("From, "+childCityGet);
+                               Picasso picasso = Picasso.get();
+                               picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
+                                       transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+
+                               itemLayout.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       Toast.makeText(getContext(), childSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                   }
+                               });
+                               linearLayout.addView(itemLayout);
+                           }
+
+                           @Override
+                           public void onCancelled(@NonNull DatabaseError error) {
+
+                           }
+                       });
+                   }
+               }
+                else{
+                    linearLayout.removeAllViews();
+                   search_linear_layout_scroll.setVisibility(View.GONE);
+                   searchMokoLogo.setVisibility(View.VISIBLE);
+                   searchNoRequestsTxt.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Error fetching data", databaseError.toException());
+            }
+        });
     }
 }

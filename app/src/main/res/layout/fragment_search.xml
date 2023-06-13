@@ -10,23 +10,76 @@
         android:id="@+id/searchUsersET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search Here"
+        android:hint="Search Here for Friends"
         android:layout_marginLeft="50px"
         android:layout_marginRight="50px"
         android:layout_marginTop="20px"/>
 
+    <TextView
+        android:id="@+id/searchWhichListTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Friend Requests"
+        android:layout_marginTop="160px"
+        android:layout_marginLeft="50px"
+        android:textSize="40px"
+        android:textFontWeight="1000"
+        android:textStyle="bold"/>
+
     <ScrollView
+        android:id="@+id/search_linear_layout_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="140px">
+        android:layout_marginTop="240px"
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:id="@+id/searchUsersLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
+            android:orientation="vertical"
+            />
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/searchUnhappyFace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_unpahhy"
+        android:layout_marginTop="400px"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/searchUnhappyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Results Found"
+        android:textSize="80px"
+        android:textAlignment="center"
+        android:layout_marginTop="600px"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/searchMokoLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_unpahhy"
+        android:layout_marginTop="400px"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/searchNoRequestsTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Requests at This Time."
+        android:textSize="80px"
+        android:textAlignment="center"
+        android:layout_marginTop="600px"
+        android:visibility="gone"
+        />
 
 </FrameLayout>

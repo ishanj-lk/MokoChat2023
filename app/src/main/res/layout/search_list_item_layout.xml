@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/list_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
 
         <ImageView
             android:id="@+id/itemImageView"
@@ -22,19 +22,19 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/itemTextView"
+                android:id="@+id/list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/ListItemTextView"
-                android:text="sample"/>
+                style="@style/SearchListName"
+                android:text="name"/>
 
-            <EditText
-                android:id="@+id/itemEditText"
-                style="@style/ListItemEditText"
+            <TextView
+                android:id="@+id/list_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type some text here..."
-                android:text="sample" />
+                style="@style/SearchListCity"
+                android:text="City"
+                />
         </LinearLayout>
 
     </LinearLayout>
