@@ -85,9 +85,9 @@ public class chatsFragment extends Fragment {
     }
 
     private void fetchList() {
-        DatabaseReference listRef = FBdatabase.getReference("texts");
+        DatabaseReference listRef = FBdatabase.getReference("friends");
         // Retrieve the data from Firebase Realtime Database
-        listRef.addValueEventListener(new ValueEventListener() {
+        listRef.child(uID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!isResumed() || !isVisible()) {

@@ -145,7 +145,7 @@ public class userProfileActivity extends AppCompatActivity {
         else if(userRelation.equals("onRequestReceived")){
             userProfileActionBtn.setText("Delete Friend Request");
             userProfileAcceptBtn.setVisibility(View.VISIBLE);
-            userProfileActionBtn.setOnClickListener(new View.OnClickListener() {
+            userProfileAcceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     acceptFriendRequest();
@@ -198,14 +198,44 @@ public class userProfileActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void acceptFriendRequest() {//not complete
+    private void acceptFriendRequest() {
+
         DatabaseReference acceptRef = FBdatabase.getReference("friends");
         Map<String, Object> acceptData = new HashMap<>();
         acceptData.put(profileID,"");
         acceptRef.child(uID).setValue(acceptData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
+                if(task.isSuccessful()){
+                    Map<String, Object> acceptDataAgain = new HashMap<>();
+                    acceptDataAgain.put(uID,"");
+                    acceptRef.child(profileID).setValue(acceptDataAgain).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
+                                DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
+                                sendRequestRef.child(profileID).child(uID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            receiveRequestRef.child(uID).child(profileID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
+                                                        Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                                                        startActivity(mainUIIntent);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
     }
@@ -256,7 +286,7 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    } //complete
 
     private void sentRequestCancel() {
         DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
