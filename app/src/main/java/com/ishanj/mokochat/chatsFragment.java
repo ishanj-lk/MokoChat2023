@@ -98,6 +98,7 @@ public class chatsFragment extends Fragment {
 
                 LayoutInflater inflater = LayoutInflater.from(getContext()); // Replace MainActivity with your activity or use 'getContext()' in a fragment
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
+                    linearLayout.removeAllViews();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         String childName = child.getKey();
                         DatabaseReference listRef =  FBdatabase.getReference("users");

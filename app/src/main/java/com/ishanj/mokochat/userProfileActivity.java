@@ -292,7 +292,7 @@ public class userProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
-                            Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                            Intent mainUIIntent = new Intent(userProfileActivity.this, MainActivity.class);
                             startActivity(mainUIIntent);
                         }
                     });

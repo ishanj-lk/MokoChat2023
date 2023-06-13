@@ -130,12 +130,12 @@ public class searchFragment extends Fragment {
                     return;
                 }
                 linearLayout.removeAllViews();
-
+                LayoutInflater inflater = LayoutInflater.from(getContext());
                 if(dataSnapshot.exists()){
                     search_linear_layout_scroll.setVisibility(View.VISIBLE);
                     searchUnhappyText.setVisibility(View.GONE);
                     searchUnhappyFace.setVisibility(View.GONE);
-                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    linearLayout.removeAllViews();
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                         String childNameGet = childSnapshot.child("name").getValue().toString();
                         String childCityGet = childSnapshot.child("homeTown").getValue().toString();
@@ -212,73 +212,82 @@ public class searchFragment extends Fragment {
 
     private void fetchRequestList() {
 
-        DatabaseReference requestRef =  FBdatabase.getReference("requestReceive");
-        requestRef.child(uID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!isResumed() || !isVisible()) {
-                    return;
-                }
-               if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
-                   linearLayout.removeAllViews();
-                   search_linear_layout_scroll.setVisibility(View.VISIBLE);
+            DatabaseReference requestRef =  FBdatabase.getReference("requestReceive");
+            requestRef.child(uID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!isResumed() || !isVisible()) {
+                        return;
+                    }
                     LayoutInflater inflater = LayoutInflater.from(getContext());
-                   for (DataSnapshot child : dataSnapshot.getChildren()) {
-                       String childName = child.getKey();
-                       DatabaseReference listRef =  FBdatabase.getReference("users");
-                       listRef.child(childName).addListenerForSingleValueEvent(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(@NonNull DataSnapshot childSnapshot) {
-                               String childNameGet = childSnapshot.child("name").getValue().toString();
-                               String childCityGet = childSnapshot.child("homeTown").getValue().toString();
-                               int imageResource = R.drawable.ic_launcher_background;
+                    if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
+                        linearLayout.removeAllViews();
+                        search_linear_layout_scroll.setVisibility(View.VISIBLE);
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            String childName = child.getKey();
+                            DatabaseReference listRef =  FBdatabase.getReference("users");
+                            listRef.child(childName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot childSnapshot) {
+                                    String childNameGet = childSnapshot.child("name").getValue().toString();
+                                    String childCityGet = childSnapshot.child("homeTown").getValue().toString();
+                                    int imageResource = R.drawable.ic_launcher_background;
 
-                               // Create a new instance of the combined layout for each item
-                               View itemLayout = inflater.inflate(R.layout.search_list_item_layout, linearLayout, false);
-                               String key = childSnapshot.getKey();
-                               TextView childNameSet = itemLayout.findViewById(R.id.list_name);
-                               TextView cityNameSet = itemLayout.findViewById(R.id.list_city);
-                               ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
+                                    // Create a new instance of the combined layout for each item
+                                    View itemLayout = inflater.inflate(R.layout.search_list_item_layout, linearLayout, false);
+                                    String key = childSnapshot.getKey();
+                                    TextView childNameSet = itemLayout.findViewById(R.id.list_name);
+                                    TextView cityNameSet = itemLayout.findViewById(R.id.list_city);
+                                    ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
 
-                               childNameSet.setTextAppearance(getContext(), R.style.SearchListName);
-                               cityNameSet.setTextAppearance(getContext(), R.style.SearchListCity);
+                                    childNameSet.setTextAppearance(getContext(), R.style.SearchListName);
+                                    cityNameSet.setTextAppearance(getContext(), R.style.SearchListCity);
 
-                               childNameSet.setText(childNameGet);
-                               cityNameSet.setText("From, "+childCityGet);
-                               Picasso picasso = Picasso.get();
-                               picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
-                                       transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                    childNameSet.setText(childNameGet);
+                                    cityNameSet.setText("From, "+childCityGet);
+                                    Picasso picasso = Picasso.get();
+                                    picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
+                                            transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
 
-                               itemLayout.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       Intent newUserIntent = new Intent(getContext(), userProfileActivity.class);
-                                       newUserIntent.putExtra("profileID", childSnapshot.getKey());
-                                       startActivity(newUserIntent);
-                                   }
-                               });
-                               linearLayout.addView(itemLayout);
-                           }
+                                    itemLayout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent newUserIntent = new Intent(getContext(), userProfileActivity.class);
+                                            newUserIntent.putExtra("profileID", childSnapshot.getKey());
+                                            startActivity(newUserIntent);
+                                        }
+                                    });
+                                    if(TextUtils.isEmpty(searchUsersETTxt)) {
+                                        linearLayout.addView(itemLayout);
+                                    }
+                                }
 
-                           @Override
-                           public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                           }
-                       });
-                   }
-               }
-                else{
-                    linearLayout.removeAllViews();
-                   search_linear_layout_scroll.setVisibility(View.GONE);
-                   searchMokoLogo.setVisibility(View.VISIBLE);
-                   searchNoRequestsTxt.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    }
+                    else{
+                        linearLayout.removeAllViews();
+                        search_linear_layout_scroll.setVisibility(View.GONE);
+                        searchMokoLogo.setVisibility(View.VISIBLE);
+                        searchNoRequestsTxt.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Firebase", "Error fetching data", databaseError.toException());
-            }
-        });
-    }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("Firebase", "Error fetching data", databaseError.toException());
+                }
+            });
+        }
+
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        searchUsersET.setText("");
+//    }
 }
