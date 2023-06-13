@@ -185,7 +185,7 @@ public class userProfileActivity extends AppCompatActivity {
                             sentRequestCancel();
 
                         }
-                        else if(userRelation.equals("onRequestReceive")){
+                        else if(userRelation.equals("onRequestReceived")){
                             receivedRequestCancel();
                         }
                         else if(userRelation.equals("notFriend")){
@@ -237,6 +237,25 @@ public class userProfileActivity extends AppCompatActivity {
     } //complete
 
     private void receivedRequestCancel() {
+        DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
+        DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
+        sendRequestRef.child(profileID).child(uID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    receiveRequestRef.child(uID).child(profileID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(userProfileActivity.this, "Friend Request Deleted Successfully...", Toast.LENGTH_SHORT).show();
+                                Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                                startActivity(mainUIIntent);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void sentRequestCancel() {
@@ -260,7 +279,7 @@ public class userProfileActivity extends AppCompatActivity {
             }
         });
 
-    }
+    } //complete
 
     private void unfriendUser() {
     }
