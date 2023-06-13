@@ -198,7 +198,7 @@ public class userProfileActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void acceptFriendRequest() {
+    private void acceptFriendRequest() {//not complete
         DatabaseReference acceptRef = FBdatabase.getReference("friends");
         Map<String, Object> acceptData = new HashMap<>();
         acceptData.put(profileID,"");
@@ -217,25 +217,49 @@ public class userProfileActivity extends AppCompatActivity {
         sendRequestRef.child(uID).setValue(sendRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
-                Map<String, Object> receiveRequestData = new HashMap<>();
-                receiveRequestData.put(uID,"");
-                receiveRequestRef.child(profileID).setValue(receiveRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(userProfileActivity.this, "Friend Request Sent Successfully...", Toast.LENGTH_SHORT).show();
-                        Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
-                        startActivity(mainUIIntent);
-                    }
-                });
+                if(task.isSuccessful()){
+                    DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
+                    Map<String, Object> receiveRequestData = new HashMap<>();
+                    receiveRequestData.put(uID,"");
+                    receiveRequestRef.child(profileID).setValue(receiveRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(userProfileActivity.this, "Friend Request Sent Successfully...", Toast.LENGTH_SHORT).show();
+                                Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                                startActivity(mainUIIntent);
+                            }
+                        }
+                    });
+                }
             }
         });
-    }
+    } //complete
 
     private void receivedRequestCancel() {
     }
 
     private void sentRequestCancel() {
+        DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
+        DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
+        sendRequestRef.child(uID).child(profileID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    receiveRequestRef.child(profileID).child(uID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(userProfileActivity.this, "Friend Request Cancel Successfully...", Toast.LENGTH_SHORT).show();
+                                Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                                startActivity(mainUIIntent);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     private void unfriendUser() {
