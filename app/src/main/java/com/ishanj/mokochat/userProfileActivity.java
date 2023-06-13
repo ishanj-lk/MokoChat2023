@@ -204,13 +204,13 @@ public class userProfileActivity extends AppCompatActivity {
         DatabaseReference acceptRef = FBdatabase.getReference("friends");
         Map<String, Object> acceptData = new HashMap<>();
         acceptData.put(profileID,"");
-        acceptRef.child(uID).setValue(acceptData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        acceptRef.child(uID).child(profileID).setValue(acceptData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Map<String, Object> acceptDataAgain = new HashMap<>();
                     acceptDataAgain.put(uID,"");
-                    acceptRef.child(profileID).setValue(acceptDataAgain).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    acceptRef.child(profileID).child(uID).setValue(acceptDataAgain).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
@@ -239,7 +239,7 @@ public class userProfileActivity extends AppCompatActivity {
 
 
         });
-    }
+    } //complete
     private void sendGreetings() {
         UUID uuid = UUID.randomUUID();
         String uniqueID = uuid.toString();
@@ -278,8 +278,7 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
+    }//complete(this is an extension of acceptFriendRequest)
     private void setPriority() {
         long timestamp = System.currentTimeMillis();
         DatabaseReference priorityRef = FBdatabase.getReference("priority");
@@ -300,20 +299,20 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }//complete(this is an extension of acceptFriendRequest)
 
     private void sendFriendRequest() {
         DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
         Map<String, Object> sendRequestData = new HashMap<>();
         sendRequestData.put(profileID,"");
-        sendRequestRef.child(uID).setValue(sendRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        sendRequestRef.child(uID).child(profileID).setValue(sendRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
                     Map<String, Object> receiveRequestData = new HashMap<>();
                     receiveRequestData.put(uID,"");
-                    receiveRequestRef.child(profileID).setValue(receiveRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    receiveRequestRef.child(profileID).child(uID).setValue(receiveRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
@@ -326,7 +325,7 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    } //complete
+    } //complete -
 
     private void receivedRequestCancel() {
         DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
@@ -348,7 +347,7 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    } //complete
+    } //complete -
 
     private void sentRequestCancel() {
         DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
@@ -371,9 +370,25 @@ public class userProfileActivity extends AppCompatActivity {
             }
         });
 
-    } //complete
+    } //complete -
 
     private void unfriendUser() {
+        DatabaseReference unfriendRef = FBdatabase.getReference("friends");
+        unfriendRef.child(uID).child(profileID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    unfriendRef.child(profileID).child(uID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(userProfileActivity.this, "Unfriend User Successfully...", Toast.LENGTH_SHORT).show();
+                            Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                            startActivity(mainUIIntent);
+                        }
+                    });
+                }
+            }
+        });
     }
 
 
