@@ -198,6 +198,7 @@ public class searchFragment extends Fragment {
         linearLayout = rootView.findViewById(R.id.searchUsersLayout);
         searchUsersET = (EditText) rootView.findViewById(R.id.searchUsersET);
         searchWhichListTxt = (TextView) rootView.findViewById(R.id.searchWhichListTxt);
+        searchWhichListTxt.setText("");
         searchUnhappyFace = (ImageView) rootView.findViewById(R.id.searchUnhappyFace);
         searchUnhappyText = (TextView) rootView.findViewById(R.id.searchUnhappyText);
         search_linear_layout_scroll = (ScrollView) rootView.findViewById(R.id.search_linear_layout_scroll);
@@ -205,7 +206,6 @@ public class searchFragment extends Fragment {
         searchMokoLogo = (ImageView) rootView.findViewById(R.id.searchMokoLogo);
         //This triggers main actions
         actionTriggers();
-        fetchRequestList();
         return rootView;
     }
 

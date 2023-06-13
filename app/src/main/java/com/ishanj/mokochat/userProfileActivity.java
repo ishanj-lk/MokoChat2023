@@ -27,7 +27,7 @@ public class userProfileActivity extends AppCompatActivity {
     private TextView userProfileName, userProfileCity;
     private ImageView userProfilePic;
 
-    private String uID, profileID, userRelation = "";
+    private String uID, profileID, cameFrom, userRelation = "";
 
     private FirebaseDatabase FBdatabase;
 
