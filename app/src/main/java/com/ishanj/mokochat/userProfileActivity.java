@@ -22,8 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import io.paperdb.Paper;
 
@@ -171,7 +174,6 @@ public class userProfileActivity extends AppCompatActivity {
     }
 
 
-
     private void showActionDialog(String title, String body) {
         new AlertDialog.Builder(userProfileActivity.this)
                 .setTitle(title)
@@ -199,7 +201,6 @@ public class userProfileActivity extends AppCompatActivity {
     }
 
     private void acceptFriendRequest() {
-
         DatabaseReference acceptRef = FBdatabase.getReference("friends");
         Map<String, Object> acceptData = new HashMap<>();
         acceptData.put(profileID,"");
@@ -223,9 +224,7 @@ public class userProfileActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
-                                                        Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
-                                                        startActivity(mainUIIntent);
+                                                        sendGreetings();
                                                     }
                                                 }
                                             });
@@ -233,6 +232,69 @@ public class userProfileActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                        }
+                    });
+                }
+            }
+
+
+        });
+    }
+    private void sendGreetings() {
+        UUID uuid = UUID.randomUUID();
+        String uniqueID = uuid.toString();
+
+        // Get the current date and time
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+
+        // Get the date and time separately
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1; // 0-based
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+
+        DatabaseReference greetingForMeRef = FBdatabase.getReference("chats");
+        Map<String, Object> greetingData = new HashMap<>();
+        greetingData.put("id",uniqueID);
+        greetingData.put("message","Hey, Greetings for your new friendship!");
+        greetingData.put("time",hour + ":" + minute + ":" + second);
+        greetingData.put("date",year + "-" + month + "-" + day);
+        greetingData.put("deleteState","notDeleted");
+        greetingData.put("readState", "notRead");
+
+        greetingForMeRef.child(uID).child(profileID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    greetingForMeRef.child(profileID).child(uID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            setPriority();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void setPriority() {
+        long timestamp = System.currentTimeMillis();
+        DatabaseReference priorityRef = FBdatabase.getReference("priority");
+        Map<String, Object> priorityData = new HashMap<>();
+        priorityData.put("timestamp",String.valueOf(timestamp));
+        priorityRef.child(uID).child(profileID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    priorityRef.child(profileID).child(uID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
+                            Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                            startActivity(mainUIIntent);
                         }
                     });
                 }

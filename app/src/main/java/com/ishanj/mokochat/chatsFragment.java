@@ -76,18 +76,19 @@ public class chatsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
         //Get uID with paper library
         Paper.init(getContext());
         uID = Paper.book().read("uID");
         //Firebase Database
         FirebaseApp.initializeApp(getContext());
         FBdatabase = FirebaseDatabase.getInstance();
+
+        fetchList();
     }
 
     private void fetchList() {
-        DatabaseReference listRef = FBdatabase.getReference("friends");
-        listRef.child(uID).addValueEventListener(new ValueEventListener() {
+        DatabaseReference listRef = FBdatabase.getReference("priority");
+        listRef.child(uID).orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!isResumed() || !isVisible()) {
@@ -156,7 +157,7 @@ public class chatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
         linearLayout = rootView.findViewById(R.id.linearLayout);
-        fetchList();
+
         return rootView;
     }
 
