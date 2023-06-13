@@ -1,6 +1,7 @@
 package com.ishanj.mokochat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import io.paperdb.Paper;
 
@@ -81,12 +83,10 @@ public class chatsFragment extends Fragment {
         //Firebase Database
         FirebaseApp.initializeApp(getContext());
         FBdatabase = FirebaseDatabase.getInstance();
-        fetchList();
     }
 
     private void fetchList() {
         DatabaseReference listRef = FBdatabase.getReference("friends");
-        // Retrieve the data from Firebase Realtime Database
         listRef.child(uID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,29 +95,52 @@ public class chatsFragment extends Fragment {
                 }
                 linearLayout.removeAllViews(); // Clear the existing views
 
-                // Get the layout inflater
                 LayoutInflater inflater = LayoutInflater.from(getContext()); // Replace MainActivity with your activity or use 'getContext()' in a fragment
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    String textValue = childSnapshot.getValue(String.class);
-                    String editTextValue = ""; // Set the initial value for EditText, modify as needed
-                    int imageResource = R.drawable.ic_launcher_background;
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        String childName = child.getKey();
+                        DatabaseReference listRef =  FBdatabase.getReference("users");
+                        listRef.child(childName).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot childSnapshot) {
+                                String childNameGet = childSnapshot.child("name").getValue().toString();
+                                String childCityGet = childSnapshot.child("homeTown").getValue().toString();
+                                int imageResource = R.drawable.ic_launcher_background;
 
-                    // Create a new instance of the combined layout for each item
-                    View itemLayout = inflater.inflate(R.layout.list_item_layout, linearLayout, false);
-                    TextView textView = itemLayout.findViewById(R.id.itemTextView);
-                    EditText editText = itemLayout.findViewById(R.id.itemEditText);
-                    ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
+                                // Create a new instance of the combined layout for each item
+                                View itemLayout = inflater.inflate(R.layout.search_list_item_layout, linearLayout, false);
+                                String key = childSnapshot.getKey();
+                                TextView childNameSet = itemLayout.findViewById(R.id.list_name);
+                                TextView cityNameSet = itemLayout.findViewById(R.id.list_city);
+                                ImageView imageView = itemLayout.findViewById(R.id.itemImageView);
 
-                    textView.setTextAppearance(getContext(), R.style.ListItemTextView);
-                    editText.setTextAppearance(getContext(), R.style.ListItemEditText);
+                                childNameSet.setTextAppearance(getContext(), R.style.SearchListName);
+                                cityNameSet.setTextAppearance(getContext(), R.style.SearchListCity);
 
-                    textView.setText(textValue);
-                    editText.setText(editTextValue);
-                    imageView.setImageResource(imageResource);
+                                childNameSet.setText(childNameGet);
+                                cityNameSet.setText("From, "+childCityGet);
+                                Picasso picasso = Picasso.get();
+                                picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
+                                        transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
 
-                    // Add the item layout to the layout container
-                    linearLayout.addView(itemLayout);
+                                itemLayout.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(getContext(), childSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                linearLayout.addView(itemLayout);
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                else{
+                    linearLayout.removeAllViews();
                 }
             }
 
@@ -133,12 +156,13 @@ public class chatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
         linearLayout = rootView.findViewById(R.id.linearLayout);
+        fetchList();
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        fetchList();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        fetchList();
+//    }
 }

@@ -5,7 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".chatsFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chats"
+        android:textSize="60px"
+        android:layout_marginTop="20px"
+        android:textAlignment="center"/>
+
     <ScrollView
+        android:layout_marginTop="120px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/logout">
@@ -14,7 +23,9 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
 
         </LinearLayout>
     </ScrollView>
