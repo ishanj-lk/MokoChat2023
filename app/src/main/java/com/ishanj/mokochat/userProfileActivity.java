@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,15 +22,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.paperdb.Paper;
 
 public class userProfileActivity extends AppCompatActivity {
 
-    private Button userProfileActionBtn;
+    private Button userProfileActionBtn, userProfileAcceptBtn;
     private TextView userProfileName, userProfileCity;
     private ImageView userProfilePic;
 
-    private String uID, profileID, cameFrom, userRelation = "";
+    private String uID, profileID, userRelation = "";
 
     private FirebaseDatabase FBdatabase;
 
@@ -50,7 +56,7 @@ public class userProfileActivity extends AppCompatActivity {
 
         //This initialize UI elements
         elementInitialize();
-        //This will update users relation to us(me, friend, onRequest, notFriend)
+        //This will update users relation to us(me, friend, onRequestSend, onRequestReceived, notFriend)
         getUserRelation();
         //This triggers main actions
         actionTriggers();
@@ -93,7 +99,7 @@ public class userProfileActivity extends AppCompatActivity {
                         updateActionBtn();
                     }
                     else{
-                        checkProfileOnRequest();
+                        checkProfileOnRequestSend();
                     }
                 }
 
@@ -126,12 +132,29 @@ public class userProfileActivity extends AppCompatActivity {
                 }
             });
         }
-        else if(userRelation.equals("onRequest")){
+        else if(userRelation.equals("onRequestSend")){
             userProfileActionBtn.setText("Cancel Friend Request");
             userProfileActionBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showActionDialog("Cancel Friend Request ","Are you sure you want to Cancel Friend Request?.");
+                    showActionDialog("Cancel Sent Friend Request ","Are you sure you want to Cancel Friend Request?.");
+                }
+            });
+
+        }
+        else if(userRelation.equals("onRequestReceived")){
+            userProfileActionBtn.setText("Delete Friend Request");
+            userProfileAcceptBtn.setVisibility(View.VISIBLE);
+            userProfileActionBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    acceptFriendRequest();
+                }
+            });
+            userProfileActionBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showActionDialog("Cancel Received Friend Request ","Are you sure you want to Delete Friend Request?.");
                 }
             });
 
@@ -147,18 +170,75 @@ public class userProfileActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void showActionDialog(String title, String body) {
         new AlertDialog.Builder(userProfileActivity.this)
                 .setTitle(title)
                 .setMessage(body)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Continue with delete operation
+                        if(userRelation.equals("friend")){
+                            unfriendUser();
+                        }
+                        else if(userRelation.equals("onRequestSend")){
+                            sentRequestCancel();
+
+                        }
+                        else if(userRelation.equals("onRequestReceive")){
+                            receivedRequestCancel();
+                        }
+                        else if(userRelation.equals("notFriend")){
+                            sendFriendRequest();
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void acceptFriendRequest() {
+        DatabaseReference acceptRef = FBdatabase.getReference("friends");
+        Map<String, Object> acceptData = new HashMap<>();
+        acceptData.put(profileID,"");
+        acceptRef.child(uID).setValue(acceptData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+    }
+
+    private void sendFriendRequest() {
+        DatabaseReference sendRequestRef = FBdatabase.getReference("requestSend");
+        Map<String, Object> sendRequestData = new HashMap<>();
+        sendRequestData.put(profileID,"");
+        sendRequestRef.child(uID).setValue(sendRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                DatabaseReference receiveRequestRef = FBdatabase.getReference("requestReceive");
+                Map<String, Object> receiveRequestData = new HashMap<>();
+                receiveRequestData.put(uID,"");
+                receiveRequestRef.child(profileID).setValue(receiveRequestData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(userProfileActivity.this, "Friend Request Sent Successfully...", Toast.LENGTH_SHORT).show();
+                        Intent mainUIIntent = new Intent(userProfileActivity.this, MainInterface.class);
+                        startActivity(mainUIIntent);
+                    }
+                });
+            }
+        });
+    }
+
+    private void receivedRequestCancel() {
+    }
+
+    private void sentRequestCancel() {
+    }
+
+    private void unfriendUser() {
     }
 
 
@@ -168,17 +248,38 @@ public class userProfileActivity extends AppCompatActivity {
         startActivity(newUserIntent);
     }
 
-    private void checkProfileOnRequest() {
-        DatabaseReference checkOnRequestRef = FBdatabase.getReference("friends");
-        checkOnRequestRef.child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void checkProfileOnRequestSend() {
+        DatabaseReference checkOnRequestSendRef = FBdatabase.getReference("requestSend");
+        checkOnRequestSendRef.child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(profileID)){
-                    userRelation = "onRequest";
+                    userRelation = "onRequestSend";
                     updateActionBtn();
                 }
                 else{
-                    userRelation= "notFriend";
+                    checkProfileOnRequestReceived();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void checkProfileOnRequestReceived() {
+        DatabaseReference checkOnRequestReceivedRef = FBdatabase.getReference("requestReceive");
+        checkOnRequestReceivedRef.child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(profileID)){
+                    userRelation = "onRequestReceived";
+                    updateActionBtn();
+                }
+                else{
+                    userRelation = "notFriend";
                     updateActionBtn();
                 }
             }
@@ -195,6 +296,7 @@ public class userProfileActivity extends AppCompatActivity {
 
     private void elementInitialize() {
         userProfileActionBtn = (Button) findViewById(R.id.userProfileActionBtn);
+        userProfileAcceptBtn = (Button) findViewById(R.id.userProfileAcceptBtn);
         userProfileName = (TextView) findViewById(R.id.userProfileName);
         userProfileCity = (TextView) findViewById(R.id.userProfileCity);
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);

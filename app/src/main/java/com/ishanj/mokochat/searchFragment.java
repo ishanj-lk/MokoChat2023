@@ -198,7 +198,7 @@ public class searchFragment extends Fragment {
         linearLayout = rootView.findViewById(R.id.searchUsersLayout);
         searchUsersET = (EditText) rootView.findViewById(R.id.searchUsersET);
         searchWhichListTxt = (TextView) rootView.findViewById(R.id.searchWhichListTxt);
-        searchWhichListTxt.setText("");
+        searchUsersET.setText("");
         searchUnhappyFace = (ImageView) rootView.findViewById(R.id.searchUnhappyFace);
         searchUnhappyText = (TextView) rootView.findViewById(R.id.searchUnhappyText);
         search_linear_layout_scroll = (ScrollView) rootView.findViewById(R.id.search_linear_layout_scroll);
@@ -206,12 +206,13 @@ public class searchFragment extends Fragment {
         searchMokoLogo = (ImageView) rootView.findViewById(R.id.searchMokoLogo);
         //This triggers main actions
         actionTriggers();
+        fetchRequestList();
         return rootView;
     }
 
     private void fetchRequestList() {
 
-        DatabaseReference requestRef =  FBdatabase.getReference("requests");
+        DatabaseReference requestRef =  FBdatabase.getReference("requestReceive");
         requestRef.child(uID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -251,7 +252,9 @@ public class searchFragment extends Fragment {
                                itemLayout.setOnClickListener(new View.OnClickListener() {
                                    @Override
                                    public void onClick(View v) {
-                                       Toast.makeText(getContext(), childSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                       Intent newUserIntent = new Intent(getContext(), userProfileActivity.class);
+                                       newUserIntent.putExtra("profileID", childSnapshot.getKey());
+                                       startActivity(newUserIntent);
                                    }
                                });
                                linearLayout.addView(itemLayout);

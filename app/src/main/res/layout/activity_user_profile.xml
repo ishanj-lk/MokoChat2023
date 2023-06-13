@@ -38,15 +38,27 @@
         />
 
     <Button
-        android:id="@+id/userProfileActionBtn"
+        android:id="@+id/userProfileAcceptBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userProfileCity"
         android:layout_marginTop="120px"
         android:layout_marginLeft="150px"
         android:layout_marginRight="150px"
-        android:text="Action"
+        android:text="Accept Friend Request"
         android:textSize="60px"
+        android:visibility="gone"
+        />
+    <Button
+        android:id="@+id/userProfileActionBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userProfileAcceptBtn"
+        android:layout_marginTop="60px"
+        android:layout_marginLeft="150px"
+        android:layout_marginRight="150px"
+        android:text="Action"
+        android:textSize="40px"
         />
 
 
