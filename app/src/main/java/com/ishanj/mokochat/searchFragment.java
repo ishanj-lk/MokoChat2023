@@ -1,5 +1,6 @@
 package com.ishanj.mokochat;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -159,7 +160,9 @@ public class searchFragment extends Fragment {
                         itemLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(getContext(), childSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                Intent newUserIntent = new Intent(getContext(), userProfileActivity.class);
+                                newUserIntent.putExtra("profileID", childSnapshot.getKey());
+                                startActivity(newUserIntent);
                             }
                         });
                         linearLayout.addView(itemLayout);
