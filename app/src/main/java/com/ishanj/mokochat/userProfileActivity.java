@@ -281,7 +281,7 @@ public class userProfileActivity extends AppCompatActivity {
         });
     }//complete(this is an extension of acceptFriendRequest)
     private void setPriority() {
-        long timestamp = System.currentTimeMillis();
+        long timestamp = (2000000000-(System.currentTimeMillis()/100));
         DatabaseReference priorityRef = FBdatabase.getReference("priority");
         Map<String, Object> priorityData = new HashMap<>();
         priorityData.put("timestamp",timestamp);
