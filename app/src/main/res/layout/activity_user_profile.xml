@@ -6,14 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".userProfileActivity">
 
+    <LinearLayout
+        android:id="@+id/customActionBAr"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/bgBlack"
+        >
+        <ImageView
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="75px"
+            android:tint="@color/white"
+            android:src="@drawable/ic_baseline_add_reaction_24"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MOKO CHAT"
+            android:layout_marginLeft="60px"
+            android:textColor="@color/white"
+            android:textSize="70px"
+            android:layout_marginTop="50px"/>
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/userProfilePic"
         android:layout_width="400px"
         android:layout_height="400px"
-        android:src="@drawable/ic_baseline_tag_faces_24"
+        android:src="@drawable/ic_baseline_add_reaction_24"
+        android:tint="@color/white"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="400px"/>
+        android:layout_marginTop="450px"/>
 
     <TextView
         android:id="@+id/userProfileName"

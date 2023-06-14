@@ -6,6 +6,13 @@
     tools:context=".searchFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search for Friends / Friend Requests"
+        android:textSize="40px"
+        android:layout_marginTop="20px"
+        android:textAlignment="center"/>
     <EditText
         android:id="@+id/searchUsersET"
         android:layout_width="match_parent"
@@ -13,14 +20,14 @@
         android:hint="Search Here for Friends"
         android:layout_marginLeft="50px"
         android:layout_marginRight="50px"
-        android:layout_marginTop="20px"/>
+        android:layout_marginTop="120px"/>
 
     <TextView
         android:id="@+id/searchWhichListTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Friend Requests"
-        android:layout_marginTop="160px"
+        android:layout_marginTop="260px"
         android:layout_marginLeft="50px"
         android:textSize="40px"
         android:textFontWeight="1000"
@@ -29,8 +36,8 @@
     <ScrollView
         android:id="@+id/search_linear_layout_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="240px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="340px"
         android:layout_marginLeft="50px"
         android:layout_marginRight="50px"
         android:visibility="gone"
@@ -49,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_unpahhy"
-        android:layout_marginTop="700px"
+        android:layout_marginTop="800px"
         android:visibility="gone"
         />
     <TextView
@@ -59,18 +66,18 @@
         android:text="No Results Found"
         android:textSize="80px"
         android:textAlignment="center"
-        android:layout_marginTop="900px"
+        android:layout_marginTop="1000px"
         android:visibility="gone"
         />
 
-    <ImageView
-        android:id="@+id/searchMokoLogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_unpahhy"
-        android:layout_marginTop="700px"
-        android:visibility="gone"
-        />
+<!--    <ImageView-->
+<!--        android:id="@+id/searchMokoLogo"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_baseline_unpahhy"-->
+<!--        android:layout_marginTop="300px"-->
+<!--        android:visibility="visible"-->
+<!--        />-->
     <TextView
         android:id="@+id/searchNoRequestsTxt"
         android:layout_width="match_parent"
@@ -78,8 +85,25 @@
         android:text="No Requests at This Time."
         android:textSize="80px"
         android:textAlignment="center"
-        android:layout_marginTop="900px"
-        android:visibility="gone"
+        android:layout_marginTop="450px"
+        android:visibility="visible"
         />
+
+    <ImageView
+        android:id="@+id/searchMokoLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="1200px"
+        android:src="@drawable/tree"
+        android:layout_marginTop="00px"
+        android:layout_gravity="bottom"
+        />
+<!--    <ImageView-->
+<!--        android:id="@+id/soilBGg"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/soilBackground"-->
+<!--        android:layout_marginTop="1200px"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        />-->
 
 </FrameLayout>

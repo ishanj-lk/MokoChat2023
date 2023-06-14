@@ -5,12 +5,26 @@
     android:layout_height="match_parent"
     tools:context=".settingsFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="60px"
+        android:layout_marginTop="40px"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:layout_marginTop="200px"
+
+        android:src="@drawable/settings"/>
     <Button
         android:id="@+id/updateUserInfoBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update User Info"
-        android:layout_marginTop="50px"
+        android:layout_marginTop="850px"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
         />
@@ -20,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:layout_below="@+id/updateUserInfoBtn"
-        android:layout_marginTop="250px"
+        android:layout_marginTop="1000px"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
         />

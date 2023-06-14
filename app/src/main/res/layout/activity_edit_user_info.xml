@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".EditUserInfo">
 
+    <LinearLayout
+        android:id="@+id/customActionBAr"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/bgBlack"
+        >
+        <ImageView
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="75px"
+            android:tint="@color/white"
+            android:src="@drawable/ic_baseline_add_reaction_24"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MOKO CHAT"
+            android:layout_marginLeft="60px"
+            android:textColor="@color/white"
+            android:textSize="70px"
+            android:layout_marginTop="50px"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/editUserInfoTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update User Information"
         android:textAlignment="center"
-        android:layout_marginTop="400px"
+        android:layout_marginTop="500px"
         android:textSize="80px"
         />
 

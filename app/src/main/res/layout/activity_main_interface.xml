@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MainInterface">
 
+    <LinearLayout
+        android:id="@+id/customActionBAr"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/bgBlack"
+        >
+        <ImageView
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="75px"
+            android:tint="@color/white"
+            android:src="@drawable/ic_baseline_add_reaction_24"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MOKO CHAT"
+            android:layout_marginLeft="60px"
+            android:textColor="@color/white"
+            android:textSize="70px"
+            android:layout_marginTop="50px"/>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigationBar"
-        />
+        android:layout_below="@+id/customActionBAr"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationBar"
