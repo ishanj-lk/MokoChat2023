@@ -39,7 +39,7 @@ public class chatActivity extends AppCompatActivity {
 
     private EditText messageInput;
     private ImageButton messageInputBtn, gotoBottomBtn;
-    private TextView notFriendsTxt, profileName;
+    private TextView notFriendsTxt, profileName, senderMessagesDateTime, myMessagesDateTime;
     private ImageView profileImage;
     private RelativeLayout messageInputLayout;
     private LinearLayout chatsLinearLayout;
@@ -61,7 +61,6 @@ public class chatActivity extends AppCompatActivity {
 
         //Get chat profileID
         profileID = getIntent().getStringExtra("profileID");
-        Toast.makeText(chatActivity.this, profileID, Toast.LENGTH_SHORT).show();
 
         //Firebase Database
         FirebaseApp.initializeApp(chatActivity.this);
@@ -83,6 +82,8 @@ public class chatActivity extends AppCompatActivity {
         chatsLinearLayout = (LinearLayout) findViewById(R.id.chatsLinearLayout);
         chatScroller = (ScrollView) findViewById(R.id.chatScroller);
         gotoBottomBtn = (ImageButton) findViewById(R.id.gotoBottomBtn);
+        senderMessagesDateTime = (TextView) findViewById(R.id.senderMessagesDateTime);
+        myMessagesDateTime = (TextView) findViewById(R.id.myMessagesDateTime);
     }
 
     private void actionTriggers() {
@@ -136,7 +137,7 @@ public class chatActivity extends AppCompatActivity {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
             int second = calendar.get(Calendar.SECOND);
-            long timestamp = System.currentTimeMillis();
+            long timestamp = (2000000000-(System.currentTimeMillis()/100));
 
             DatabaseReference sendMsgRef = FBdatabase.getReference("chats");
             Map<String, Object> msgData = new HashMap<>();
@@ -147,7 +148,7 @@ public class chatActivity extends AppCompatActivity {
             msgData.put("deleteState","notDeleted");
             msgData.put("readState", "notRead");
             msgData.put("owner",uID);
-            msgData.put("timestamp",timestamp);
+            msgData.put("timestamp",-timestamp);
 
 
             sendMsgRef.child(uID).child(profileID).child(uniqueID).setValue(msgData).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -170,7 +171,7 @@ public class chatActivity extends AppCompatActivity {
     }
 
     private void setPriority() {
-        long timestamp = System.currentTimeMillis();
+        long timestamp = (2000000000-(System.currentTimeMillis()/100));
         DatabaseReference priorityRef = FBdatabase.getReference("priority");
         Map<String, Object> priorityData = new HashMap<>();
         priorityData.put("timestamp",timestamp);
@@ -247,18 +248,46 @@ public class chatActivity extends AppCompatActivity {
                     View itemLayout = inflater.inflate(R.layout.message_item_layout, chatsLinearLayout, false);
                     TextView senderMessages = itemLayout.findViewById(R.id.senderMessages);
                     TextView myMessages = itemLayout.findViewById(R.id.myMessages);
+                    TextView senderMessagesDateTime = itemLayout.findViewById(R.id.senderMessagesDateTime);
+                    TextView myMessagesDateTime = itemLayout.findViewById(R.id.myMessagesDateTime);
 
                     String childID = child.getKey();
                     String owner = child.child("owner").getValue().toString();
                     String message = child.child("message").getValue().toString();
+                    String dateGet = child.child("date").getValue().toString();
+                    String time = child.child("time").getValue().toString();
+
+                    // Get the current date and time
+                    Calendar calendar = Calendar.getInstance();
+                    Date date = calendar.getTime();
+
+                    // Get the date and time separately
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1; // 0-based
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    if(dateGet.equals(year + "-" + month + "-" + day)){
+                        dateGet = "Today";
+                    }
+                    String dateTime = time+" / "+dateGet;
 
                     if(owner.equals(profileID)){
                         senderMessages.setText(message);
                         myMessages.setVisibility(View.GONE);
+                        senderMessagesDateTime.setText(dateTime);
+                        myMessagesDateTime.setVisibility(View.GONE);
                     }
                     else if(owner.equals(uID)){
                         myMessages.setText(message);
                         senderMessages.setVisibility(View.GONE);
+                        myMessagesDateTime.setText(dateTime);
+                        senderMessagesDateTime.setVisibility(View.GONE);
+                    }
+                    else{ //This is for general massages In this moment it is deactivated
+                        myMessages.setVisibility(View.GONE);
+                        myMessagesDateTime.setVisibility(View.GONE);
+                        senderMessages.setVisibility(View.GONE);
+                        senderMessagesDateTime.setVisibility(View.GONE);
                     }
 
                     chatsLinearLayout.addView(itemLayout);

@@ -289,16 +289,17 @@ public class userProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    priorityRef.child(profileID).child(uID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
-                                Intent mainUIIntent = new Intent(userProfileActivity.this, MainActivity.class);
-                                startActivity(mainUIIntent);
-                            }
-                        }
-                    });
+                }
+            }
+        });
+
+        priorityRef.child(profileID).child(uID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
+                    Intent mainUIIntent = new Intent(userProfileActivity.this, MainActivity.class);
+                    startActivity(mainUIIntent);
                 }
             }
         });

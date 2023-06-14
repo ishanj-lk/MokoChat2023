@@ -21,6 +21,20 @@
         android:layout_marginTop="40px"/>
 
     <TextView
+        android:id="@+id/senderMessagesDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/senderMessages"
+        android:text="sample"
+        android:textSize="30px"
+        android:textAlignment="textStart"
+        android:layout_marginRight="100px"
+        android:textColor="@color/white"
+        android:maxWidth="700px"
+        android:paddingLeft="20px"
+        android:layout_marginTop="10px"/>
+
+    <TextView
         android:id="@+id/myMessages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,5 +50,22 @@
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="50px" />
+
+    <TextView
+        android:id="@+id/myMessagesDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20px"
+        android:layout_below="@+id/myMessages"
+        android:maxWidth="700px"
+        android:paddingLeft="50px"
+        android:paddingTop="10px"
+        android:paddingRight="20px"
+        android:paddingBottom="20px"
+        android:text="sample"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="30px" />
 
 </RelativeLayout>

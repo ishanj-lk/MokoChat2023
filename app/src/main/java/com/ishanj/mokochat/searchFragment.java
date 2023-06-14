@@ -223,6 +223,8 @@ public class searchFragment extends Fragment {
                     if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
                         linearLayout.removeAllViews();
                         search_linear_layout_scroll.setVisibility(View.VISIBLE);
+                        searchMokoLogo.setVisibility(View.GONE);
+                        searchNoRequestsTxt.setVisibility(View.GONE);
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             String childName = child.getKey();
                             DatabaseReference listRef =  FBdatabase.getReference("users");
@@ -271,9 +273,11 @@ public class searchFragment extends Fragment {
                     }
                     else{
                         linearLayout.removeAllViews();
-                        search_linear_layout_scroll.setVisibility(View.GONE);
-                        searchMokoLogo.setVisibility(View.VISIBLE);
-                        searchNoRequestsTxt.setVisibility(View.VISIBLE);
+                        if(TextUtils.isEmpty(searchUsersETTxt)){
+                            search_linear_layout_scroll.setVisibility(View.GONE);
+                            searchMokoLogo.setVisibility(View.VISIBLE);
+                            searchNoRequestsTxt.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 
