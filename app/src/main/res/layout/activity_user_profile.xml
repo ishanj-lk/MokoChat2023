@@ -32,13 +32,12 @@
 
     <ImageView
         android:id="@+id/userProfilePic"
-        android:layout_width="400px"
-        android:layout_height="400px"
-        android:src="@drawable/ic_baseline_add_reaction_24"
-        android:tint="@color/white"
-        android:layout_gravity="center"
+        android:layout_width="300px"
+        android:layout_height="300px"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450px"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="450px"
+        android:src="@drawable/ic_baseline_add_reaction_24"/>
 
     <TextView
         android:id="@+id/userProfileName"

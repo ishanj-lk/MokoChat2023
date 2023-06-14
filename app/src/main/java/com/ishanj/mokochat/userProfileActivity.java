@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -77,7 +78,18 @@ public class userProfileActivity extends AppCompatActivity {
                     String userName = snapshot.child("name").getValue().toString();
                     String homeTown = snapshot.child("homeTown").getValue().toString();
                     userProfileName.setText(userName);
-                    userProfileCity.setText(homeTown);
+                    userProfileCity.setText("From, "+homeTown);
+
+                    String imageUrl="sample";
+                    Picasso picasso = Picasso.get();
+                    try {
+                        imageUrl = snapshot.child("imageUrl").getValue().toString();
+                        picasso.load(imageUrl).resize(200, 200).
+                                transform(new RoundedTransformation(10, 10)).centerCrop().into(userProfilePic);
+                    } catch (Exception e) {
+                        picasso.load("https://i.imgur.com/tGbaZCY.jpg").resize(200, 200).
+                                transform(new RoundedTransformation(10, 10)).centerCrop().into(userProfilePic);
+                    }
                 }
             }
 
