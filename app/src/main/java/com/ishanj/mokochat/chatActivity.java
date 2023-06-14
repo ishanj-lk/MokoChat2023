@@ -104,6 +104,14 @@ public class chatActivity extends AppCompatActivity {
             }
         });
         showScrollBtn();
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent UserIntent = new Intent(chatActivity.this, userProfileActivity.class);
+                UserIntent.putExtra("profileID", profileID);
+                startActivity(UserIntent);
+            }
+        });
     }
 
     private void showScrollBtn() {

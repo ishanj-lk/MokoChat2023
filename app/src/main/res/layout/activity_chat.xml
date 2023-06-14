@@ -44,7 +44,7 @@
             android:layout_height="150px"
             android:hint="Type message here"
             android:paddingLeft="50px"
-            android:paddingRight="120px" />
+            android:paddingRight="200px" />
         <ImageButton
             android:id="@+id/messageInputBtn"
             android:layout_width="150px"
