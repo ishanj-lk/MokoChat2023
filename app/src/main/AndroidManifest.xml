@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MokoChat"
         tools:targetApi="31">
         <activity
+            android:name=".chatActivity"
+            android:exported="false" />
+        <activity
             android:name=".userProfileActivity"
             android:exported="false" />
         <activity

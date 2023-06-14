@@ -128,7 +128,9 @@ public class chatsFragment extends Fragment {
                                 itemLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getContext(), childSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                                        Intent chatIntent = new Intent(getContext(),chatActivity.class);
+                                        chatIntent.putExtra("profileID",childSnapshot.getKey());
+                                        startActivity(chatIntent);
                                     }
                                 });
                                 linearLayout.addView(itemLayout);

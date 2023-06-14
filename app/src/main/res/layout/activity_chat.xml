@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".chatActivity">
+
+
+    <LinearLayout
+        android:id="@+id/customActionBAr"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/bgBlack"
+        >
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="75px"
+            android:tint="@color/white"
+            android:src="@drawable/ic_baseline_add_reaction_24"
+            />
+        <TextView
+            android:id="@+id/profileName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MOKO CHAT"
+            android:layout_marginLeft="60px"
+            android:textColor="@color/white"
+            android:textSize="70px"
+            android:layout_marginTop="50px"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/messageInput"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="Type message here"
+            android:paddingLeft="50px"
+            android:paddingRight="120px" />
+        <ImageButton
+            android:id="@+id/messageInputBtn"
+            android:layout_width="150px"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_send_24"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/notFriendsTxt"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:text="You can't send messages to this user because you both are not friends anymore."
+        android:textSize="40px"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="20px"
+        android:paddingLeft="50px"
+        android:paddingRight="50px"
+        android:background="@color/black"/>
+
+    <ScrollView
+        android:layout_marginTop="200px"
+        android:layout_marginBottom="150px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
