@@ -8,6 +8,8 @@
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1805" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/drawable/ic_baseline_unpahhy.xml" value="0.1805" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1105" />
+        <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/drawable/rounded_background.xml" value="0.1805" />
+        <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/drawable/rounded_background_blue.xml" value="0.1805" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/activity_chat.xml" value="0.25" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/activity_edit_user_info.xml" value="0.25" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/fragment_search.xml" value="0.2359375" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/list_item_layout.xml" value="0.2" />
+        <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/message_item_layout.xml" value="0.25" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/search_list_item_layout.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/layout/styles.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/IshanJ/Desktop/MokoChat/app/src/main/res/menu/nav_menu.xml" value="0.24895833333333334" />

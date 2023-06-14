@@ -264,12 +264,13 @@ public class userProfileActivity extends AppCompatActivity {
         greetingData.put("date",year + "-" + month + "-" + day);
         greetingData.put("deleteState","notDeleted");
         greetingData.put("readState", "notRead");
+        greetingData.put("owner","general");
 
-        greetingForMeRef.child(uID).child(profileID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        greetingForMeRef.child(uID).child(profileID).child(uniqueID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    greetingForMeRef.child(profileID).child(uID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    greetingForMeRef.child(profileID).child(uID).child(uniqueID).setValue(greetingData).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             setPriority();
@@ -283,7 +284,7 @@ public class userProfileActivity extends AppCompatActivity {
         long timestamp = System.currentTimeMillis();
         DatabaseReference priorityRef = FBdatabase.getReference("priority");
         Map<String, Object> priorityData = new HashMap<>();
-        priorityData.put("timestamp",String.valueOf(timestamp));
+        priorityData.put("timestamp",timestamp);
         priorityRef.child(uID).child(profileID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -291,9 +292,11 @@ public class userProfileActivity extends AppCompatActivity {
                     priorityRef.child(profileID).child(uID).setValue(priorityData).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
-                            Intent mainUIIntent = new Intent(userProfileActivity.this, MainActivity.class);
-                            startActivity(mainUIIntent);
+                            if(task.isSuccessful()){
+                                Toast.makeText(userProfileActivity.this, "Friend Request Accepted Successfully...", Toast.LENGTH_SHORT).show();
+                                Intent mainUIIntent = new Intent(userProfileActivity.this, MainActivity.class);
+                                startActivity(mainUIIntent);
+                            }
                         }
                     });
                 }

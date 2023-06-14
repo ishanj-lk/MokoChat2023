@@ -69,20 +69,35 @@
         android:background="@color/black"/>
 
     <ScrollView
-        android:layout_marginTop="200px"
-        android:layout_marginBottom="150px"
+        android:id="@+id/chatScroller"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="200px"
+        android:layout_marginBottom="150px">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/chatsLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="50px"
-            android:paddingRight="50px">
+            android:paddingRight="20px">
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/gotoBottomBtn"
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:src="@drawable/ic_baseline_arrow_circle_down_24"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/nightBlue"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="200px"
+        android:layout_marginRight="50px"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

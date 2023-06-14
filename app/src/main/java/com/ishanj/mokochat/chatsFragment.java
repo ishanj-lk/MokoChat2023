@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -91,11 +92,7 @@ public class chatsFragment extends Fragment {
         listRef.child(uID).orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!isResumed() || !isVisible()) {
-                    return; // Ignore data updates if the fragment is not currently visible
-                }
                 linearLayout.removeAllViews(); // Clear the existing views
-
                 LayoutInflater inflater = LayoutInflater.from(getContext()); // Replace MainActivity with your activity or use 'getContext()' in a fragment
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
                     linearLayout.removeAllViews();
