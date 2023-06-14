@@ -183,7 +183,7 @@ public class EditUserInfo extends AppCompatActivity {
         registerUserData.put("name", editUserInfoNameGetValue);
         registerUserData.put("homeTown", editUserInfoTownGeValue);
         registerUserData.put("name4search", editUserInfoNameGetValue.toLowerCase().replace(" ", ""));
-        registerUserRef.setValue(registerUserData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        registerUserRef.updateChildren(registerUserData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){

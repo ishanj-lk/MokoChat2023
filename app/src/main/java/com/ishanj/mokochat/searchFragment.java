@@ -153,9 +153,16 @@ public class searchFragment extends Fragment {
 
                         childNameSet.setText(childNameGet);
                         cityNameSet.setText("From, "+childCityGet);
+                        String imageUrl="sample";
                         Picasso picasso = Picasso.get();
-                        picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
-                                transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                        try {
+                            imageUrl = childSnapshot.child("imageUrl").getValue().toString();
+                            picasso.load(imageUrl).resize(200, 200).
+                                    transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                        } catch (Exception e) {
+                            picasso.load("https://i.imgur.com/tGbaZCY.jpg").resize(200, 200).
+                                    transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                        }
 
                         itemLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -247,9 +254,16 @@ public class searchFragment extends Fragment {
 
                                     childNameSet.setText(childNameGet);
                                     cityNameSet.setText("From, "+childCityGet);
+                                    String imageUrl="sample";
                                     Picasso picasso = Picasso.get();
-                                    picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
-                                            transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                    try {
+                                        imageUrl = childSnapshot.child("imageUrl").getValue().toString();
+                                        picasso.load(imageUrl).resize(200, 200).
+                                                transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                    } catch (Exception e) {
+                                        picasso.load("https://i.imgur.com/tGbaZCY.jpg").resize(200, 200).
+                                                transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                    }
 
                                     itemLayout.setOnClickListener(new View.OnClickListener() {
                                         @Override

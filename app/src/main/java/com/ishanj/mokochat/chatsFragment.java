@@ -119,7 +119,7 @@ public class chatsFragment extends Fragment {
 
                                 childNameSet.setText(childNameGet);
                                 cityNameSet.setText("From, "+childCityGet);
-                                String imageUrl="hhjhjhs";
+                                String imageUrl="sample";
                                 Picasso picasso = Picasso.get();
                                 try {
                                     imageUrl = childSnapshot.child("imageUrl").getValue().toString();
