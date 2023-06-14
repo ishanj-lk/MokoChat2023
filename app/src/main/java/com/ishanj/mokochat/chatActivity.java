@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -200,9 +201,17 @@ public class chatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String profileNameGet = snapshot.child("name").getValue().toString();
-                    //String profilePicLinkGet = snapshot.child("imageUrl").getValue().toString();
-
                     profileName.setText(profileNameGet);
+                    String imageUrl="sample";
+                    Picasso picasso = Picasso.get();
+                    try {
+                        imageUrl = snapshot.child("imageUrl").getValue().toString();
+                        picasso.load(imageUrl).resize(400, 400).
+                                transform(new RoundedTransformation(10, 10)).centerCrop().into(profileImage);
+                    } catch (Exception e) {
+                        picasso.load("https://i.imgur.com/tGbaZCY.jpg").resize(300, 300).
+                                transform(new RoundedTransformation(10, 10)).centerCrop().into(profileImage);
+                    }
                 }
             }
 
