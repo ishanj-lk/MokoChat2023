@@ -104,6 +104,7 @@ public class chatsFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot childSnapshot) {
                                 String childNameGet = childSnapshot.child("name").getValue().toString();
                                 String childCityGet = childSnapshot.child("homeTown").getValue().toString();
+
                                 int imageResource = R.drawable.ic_launcher_background;
 
                                 // Create a new instance of the combined layout for each item
@@ -118,9 +119,16 @@ public class chatsFragment extends Fragment {
 
                                 childNameSet.setText(childNameGet);
                                 cityNameSet.setText("From, "+childCityGet);
+                                String imageUrl="hhjhjhs";
                                 Picasso picasso = Picasso.get();
-                                picasso.load("https://i.imgur.com/tGbaZCY.jpg").placeholder(imageResource).resize(200, 200).
-                                        transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                try {
+                                    imageUrl = childSnapshot.child("imageUrl").getValue().toString();
+                                    picasso.load(imageUrl).resize(200, 200).
+                                            transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                } catch (Exception e) {
+                                    picasso.load("https://i.imgur.com/tGbaZCY.jpg").resize(200, 200).
+                                            transform(new RoundedTransformation(10, 10)).centerCrop().into(imageView);
+                                }
 
                                 itemLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
