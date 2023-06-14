@@ -13,11 +13,11 @@ This project is about a Android chat app called Moko Chat. I built same kind of 
     7. Unfriend Users.
 
 <p>Here is some screenshots of the app,</p>
-<img src="./Screenshots/availableChats.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px">
-<img src="./Screenshots/insideChat.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px">
-<img src="./Screenshots/editUserInfo.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px">
-<img src="./Screenshots/searchForUsers.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px">
-<img src="./Screenshots/friendRequests.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px">
+<img src="./Screenshots/availableChats.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px;display:inline-block">
+<img src="./Screenshots/insideChat.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px;display:inline-block">
+<img src="./Screenshots/editUserInfo.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px;display:inline-block">
+<img src="./Screenshots/searchForUsers.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px;display:inline-block">
+<img src="./Screenshots/friendRequests.jpg"  width="150" height="300" style="margin-left:20px;margin-top:10px;display:inline-block">
 <h1></h1>
 <p></p>
 <p>You will able to download and enjoy this app through the Android Play Store soon.</p>
